@@ -1,0 +1,88 @@
+name: Deploy to Tencent Cloud COS
+
+on:
+  push:
+    branches: [ main ]
+  # 允许手动触发工作流
+  workflow_dispatch:
+
+# 设置权限
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Tencent Cloud CLI
+        run: |
+          pip install coscmd
+
+      - name: Configure COS Credentials
+        env:
+          SECRET_ID: ${{ secrets.TENCENT_CLOUD_SECRET_ID }}
+          SECRET_KEY: ${{ secrets.TENCENT_CLOUD_SECRET_KEY }}
+          BUCKET: ${{ secrets.TENCENT_COS_BUCKET }}
+          REGION: ${{ secrets.TENCENT_COS_REGION }}
+        run: |
+          coscmd config -a $SECRET_ID -s $SECRET_KEY -b $BUCKET -r $REGION
+
+      - name: Upload to COS
+        env:
+          BUCKET: ${{ secrets.TENCENT_COS_BUCKET }}
+          REGION: ${{ secrets.TENCENT_COS_REGION }}
+        run: |
+          # 上传所有文件到 COS
+          coscmd upload -r ./ / --delete
+
+      - name: Set Website Configuration
+        env:
+          BUCKET: ${{ secrets.TENCENT_COS_BUCKET }}
+          REGION: ${{ secrets.TENCENT_COS_REGION }}
+        run: |
+          # 设置静态网站配置
+          coscmd website put --index index.html --error index.html
+
+      - name: Invalidate CDN Cache (if enabled)
+        if: ${{ env.TENCENT_CDN_DOMAIN != '' }}
+        env:
+          CDN_DOMAIN: ${{ secrets.TENCENT_CDN_DOMAIN }}
+          SECRET_ID: ${{ secrets.TENCENT_CLOUD_SECRET_ID }}
+          SECRET_KEY: ${{ secrets.TENCENT_CLOUD_SECRET_KEY }}
+        run: |
+          # 如果启用了 CDN，刷新 CDN 缓存
+          if [ -n "$CDN_DOMAIN" ]; then
+            echo "Refreshing CDN cache for $CDN_DOMAIN"
+            # 使用腾讯云 CLI 刷新 CDN 缓存
+            pip install tencentcloud-sdk-python
+            python3 -c "
+          from tencentcloud.common import credential
+          from tencentcloud.common.profile.client_profile import ClientProfile
+          from tencentcloud.common.profile.http_profile import HttpProfile
+          from tencentcloud.cdn.v20180606 import cdn_client, models
+          
+          cred = credential.Credential('${{ secrets.TENCENT_CLOUD_SECRET_ID }}', '${{ secrets.TENCENT_CLOUD_SECRET_KEY }}')
+          httpProfile = HttpProfile()
+          httpProfile.endpoint = 'cdn.tencentcloudapi.com'
+          clientProfile = ClientProfile()
+          clientProfile.httpProfile = httpProfile
+          client = cdn_client.CdnClient(cred, '', clientProfile)
+          
+          req = models.PurgePathCacheRequest()
+          params = {
+              'Paths': ['https://' + '$CDN_DOMAIN' + '/'],
+              'FlushType': 'flush'
+          }
+          req.from_json_string(params)
+          resp = client.PurgePathCache(req)
+          print(resp.to_json_string())
+          "
+          fi
