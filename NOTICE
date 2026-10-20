@@ -1,14 +1,21 @@
-NT-Studio（星玖工作室 Ntarstudio）
-Copyright 2026 Ntars
+NT-Studio（星玖工作室 Ntarstudio 官网主页）
+Copyright (c) 2026 星玖工作室 Ntarstudio
 
-本产品基于以下第三方作品修改而来，依 Apache-2.0 要求保留其版权声明与致谢：
+一、本仓库许可
+本仓库自研代码（页面实现、样式、脚本及后续所有改动）以 MIT 协议开源，全文见 LICENSE。
+
+二、上游派生部分的许可（依 Apache-2.0 第 4 条保留）
+本产品基于以下第三方作品修改而来，该派生部分仍受其原有许可约束，此处保留其版权声明、
+许可文本与「已修改」的事实说明：
 
 * asorn/asorn-open —— 个人博客开源版
   https://github.com/asorn/asorn-open
-  许可：Apache License 2.0
-  说明：NT-Studio 在其基础上修改、扩展并重新设计界面与结构。
+  许可：Apache License 2.0（全文见 LICENSE-Apache-2.0.txt）
+  说明：NT-Studio 在其基础上修改、扩展并重新设计了界面与结构，属修改后的衍生作品。
 
 本项目使用到的第三方开源库（各自许可见其官方仓库）：
 typed.js（MIT，经 unpkg CDN 引入）。
 
-使用或再分发本项目时，请连同本 NOTICE 与 Apache-2.0 协议文本一并保留。
+三、再分发要求
+使用或再分发本项目时，请一并保留：本 NOTICE、MIT 协议文本（LICENSE），
+以及派生部分所需的 Apache-2.0 协议文本（LICENSE-Apache-2.0.txt）。

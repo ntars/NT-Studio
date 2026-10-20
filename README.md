@@ -2,7 +2,7 @@
 
 基于原始仓库部分内容，原作者仓库：https://github.com/asorn/asorn-open
 
-许可证：本项目采用 Apache License 2.0，详情见 `LICENSE` 文件。
+许可证：本项目自研代码采用 MIT 协议（见 `LICENSE`）；派生自 asorn/asorn-open 的部分仍为 Apache License 2.0（见 `LICENSE-Apache-2.0.txt` 与 `NOTICE`）。
 
 ---
 
@@ -47,7 +47,9 @@ Home-Page/
 ├── manifest.json           # PWA Web App Manifest
 ├── sw.js                   # Service Worker（离线缓存加速）
 ├── README.md               # 项目文档
-├── LICENSE                 # 开源协议
+├── LICENSE                 # MIT 协议（自研代码）
+├── LICENSE-Apache-2.0.txt  # Apache-2.0 协议（派生自 asorn/asorn-open 的部分）
+├── NOTICE                  # 版权声明与上游致谢
 ├── baidu_verify_codeva-C4tp7NQbk5.html  # 百度站长验证
 ├── tencent-cloud-config.yml              # 腾讯云部署配置
 └── assets/
