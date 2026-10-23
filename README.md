@@ -371,7 +371,7 @@ Service Worker 仅在 `localhost` 或 HTTPS 环境下注册，`file://` 协议�
 |---|---|---|
 | 官方网站 | 星玖工作室官网 | https://www.ntars.cn/ |
 | 社交平台 | GitHub | https://github.com/ntars |
-| 社交平台 | 爱发电 | https://ifdian.net/a/ntars/ |
+| 社交平台 | 爱发电 | https://afdian.com/a/ntars |
 | 社交平台 | 哔哩哔哩 | https://space.bilibili.com/499925438 |
 | 联系方式 | 邮箱 | ntarsx@163.com |
 | 联系方式 | QQ | 3933361415 |
