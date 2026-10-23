@@ -39,11 +39,14 @@
 
 | 平台 | 地址 | 说明 |
 |---|---|---|
-| 官网主页（主域名） | [https://www.ntars.cn/](https://www.ntars.cn/) | 正式站点，EdgeOne Pages 托管 |
-| 官网镜像（GitHub Pages） | [https://ntars.github.io/NT-Studio/](https://ntars.github.io/NT-Studio/) | 仓库直连的备用访问入口 |
+| 官网主页（主域名） | [https://www.ntars.cn/](https://www.ntars.cn/) | 正式站点，EdgeOne Pages 托管，推送后自动发布 |
+| GitHub 仓库 | [https://github.com/ntars/NT-Studio](https://github.com/ntars/NT-Studio) | 源码与文档所在 |
 | 玄玖灵犀 NT-Xhex | [https://yi.ntars.cn/](https://yi.ntars.cn/) | 已上线 |
 | 玄宠 NT-Dpet | [https://pet.ntars.cn/](https://pet.ntars.cn/) | 官网已上线，软件研发中 |
 | 玄玖大模型 NT-Sine | `https://ai.ntars.cn/` | **未上线**，域名尚未解析 |
+
+> **GitHub Pages 当前不可用（实测 2026-10-23）**：`.github/workflows/deploy.yml` 已经写好、推 `main` 会触发，但仓库设置里没有把 Pages 的 Source 设为「GitHub Actions」，因此 `ntars.github.io/NT-Studio/` 返回 404。
+> 若需要这个镜像入口，请到仓库 **Settings → Pages → Build and deployment → Source** 选 **GitHub Actions**，再手动跑一次工作流即可。在启用之前，请不要把该地址写进任何对外页面。
 
 > **主列表卡片顺序固定为三张**：玄玖灵犀 NT-Xhex → 玄宠 NT-Dpet → 玄玖大模型 NT-Sine。
 > 「联系我们」不是卡片，而是页面**右上角固定文字入口**，点击后弹窗展示社交与联系方式。
@@ -92,6 +95,9 @@ NT-Studio/
 ├── NOTICE                  # 版权声明、上游致谢与第三方组件清单
 ├── baidu_verify_codeva-C4tp7NQbk5.html  # 百度站长验证
 ├── tencent-cloud-config.yml              # 腾讯云部署配置
+├── .github/workflows/
+│   ├── deploy.yml           # GitHub Pages 部署（需在仓库设置中启用才生效）
+│   └── deploy-tencent.yml   # 腾讯云 COS 部署（需配置四项密钥）
 └── assets/
     ├── css/
     │   ├── base.css        # 全局样式（暗/亮双主题 / 过渡动画 / 响应式 / PWA 适配 / 联系我们弹窗）
@@ -201,9 +207,9 @@ python3 -m http.server 8000
 
 ## 部署
 
-- **EdgeOne Pages**：主域名 `www.ntars.cn` 的托管方式，推仓库根即可（`tencent-cloud-config.yml` 保留为备用配置）
-- **GitHub Pages**：推送至 `main` 分支自动部署，作为镜像入口
-- **腾讯云 COS**：通过 GitHub Actions 部署，需配置 `TENCENT_CLOUD_*` 密钥
+- **EdgeOne Pages**：主域名 `www.ntars.cn` 的实际托管方式，推送即发布（实测 2026-10-23 18:45 生效）
+- **GitHub Pages**：工作流 `.github/workflows/deploy.yml` 已就绪，但需先在仓库 Settings → Pages 启用「GitHub Actions」作为 Source；未启用前该入口为 404
+- **腾讯云 COS**：通过 `.github/workflows/deploy-tencent.yml` 部署，需配置 `TENCENT_CLOUD_SECRET_ID` / `TENCENT_CLOUD_SECRET_KEY` / `TENCENT_COS_BUCKET` / `TENCENT_COS_REGION` 四项密钥
 
 ---
 
