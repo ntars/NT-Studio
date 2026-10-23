@@ -53,7 +53,7 @@ MIT 的强制义务是「保留版权声明与许可声明」，请勿删除文�
    修改情况：未修改
 
 2) Typed.js 2.0.16 —— 问候语打字效果
-   Copyright (c) 2014 Matt Boldt
+   Copyright (c) Matt Boldt（具体年份以上游 LICENSE 为准）
    https://github.com/mattboldt/typed.js/
    许可：MIT
    加载方式：经 unpkg CDN 引入（index.html 中 <script src="https://unpkg.com/typed.js@2.0.16/...">），
